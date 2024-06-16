@@ -4,6 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const auditoriaRoutes = require('./src/routes/auditoriaRoutes');
+const moduleRoutes = require('./src/routes/moduleRoutes');
 const db = require('./src/models/db'); // Archivo donde se define la conexión a la base de datos
 
 const app = express();
@@ -14,6 +15,7 @@ app.use(cors());
 
 // Rutas
 app.use('/api', auditoriaRoutes);
+app.use('/api', moduleRoutes);
 // Puedes añadir más rutas según tus necesidades
 
 app.listen(port, () => {
