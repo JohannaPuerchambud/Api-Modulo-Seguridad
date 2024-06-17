@@ -2,7 +2,7 @@ const Module = require('../models/module')
 
 const getModules = async (req, res) => {
     try {
-        const modules = await Module.getModules();
+        const modules = await Module.getmoduless();
         res.json(modules);
     } catch (error) {
         res.status(500).json({ message: 'Error al obtener los módulos', error });

@@ -21,5 +21,5 @@ app.use('/api', functionRoutes);
 // Puedes añadir más rutas según tus necesidades
 
 app.listen(port, () => {
-  console.log(`Servidor backend corriendo en http://localhost:${port}/`);
+  console.log(`Servidor backend corriendo en http://localhost:${port}/`); 
 });

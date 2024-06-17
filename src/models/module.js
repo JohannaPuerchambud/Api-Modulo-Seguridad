@@ -1,7 +1,7 @@
 const pool = require('../models/db');
 
 const getmoduless = async () => {
-    const result = await pool.query('SELECT * FROM moduless');
+    const result = await pool.query('SELECT * FROM modules');
     return result.rows;
 };
 
