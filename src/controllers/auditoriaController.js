@@ -1,6 +1,6 @@
 // controllers/auditoriaController.js
 
-const db = require('../models/db'); // Archivo donde se define la conexión a la base de datos
+const db = require('../config/db'); // Archivo donde se define la conexión a la base de datos
 
 // Método para obtener todas las auditorías
 const getAuditoria = async (req, res) => {

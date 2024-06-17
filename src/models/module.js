@@ -1,4 +1,4 @@
-const pool = require('../models/db');
+const pool = require('../config/db');
 
 const getmoduless = async () => {
     const result = await pool.query('SELECT * FROM modules');
