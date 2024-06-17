@@ -2,8 +2,8 @@
 
 const db = require('../models/db'); // Archivo donde se define la conexión a la base de datos
 
-// Obtener todas las auditorías
-exports.getAuditoria = async (req, res) => {
+// Método para obtener todas las auditorías
+const getAuditoria = async (req, res) => {
   try {
     const query = 'SELECT * FROM auditoria';
     const { rows } = await db.query(query);
@@ -14,8 +14,8 @@ exports.getAuditoria = async (req, res) => {
   }
 };
 
-// Crear una nueva auditoría
-exports.createAuditoria = async (req, res) => {
+// Método para crear una nueva auditoría
+const createAuditoria = async (req, res) => {
   const { aud_usuario, aud_accion, aud_modulo, aud_funcionalidad, aud_observacion } = req.body;
   const aud_fecha = new Date().toISOString(); // Obtén la fecha actual en formato ISO
 
@@ -30,9 +30,9 @@ exports.createAuditoria = async (req, res) => {
   }
 };
 
-// Obtener una auditoría por su ID
-exports.getAuditoriaById = async (req, res) => {
-  const aud_id = req.params.aud_id;
+// Método para obtener una auditoría por su ID
+const getAuditoriaById = async (req, res) => {
+  const aud_id = parseInt(req.params.aud_id, 10);
 
   try {
     const query = 'SELECT * FROM auditoria WHERE aud_id = $1';
@@ -49,9 +49,9 @@ exports.getAuditoriaById = async (req, res) => {
   }
 };
 
-// Eliminar una auditoría por su ID
-exports.deleteAuditoria = async (req, res) => {
-  const aud_id = req.params.aud_id;
+// Método para eliminar una auditoría por su ID
+const deleteAuditoria = async (req, res) => {
+  const aud_id = parseInt(req.params.aud_id, 10);
 
   try {
     const query = 'DELETE FROM auditoria WHERE aud_id = $1 RETURNING *';
@@ -68,9 +68,9 @@ exports.deleteAuditoria = async (req, res) => {
   }
 };
 
-// Actualizar una auditoría por su ID
-exports.updateAuditoria = async (req, res) => {
-  const aud_id = req.params.aud_id;
+// Método para actualizar una auditoría por su ID
+const updateAuditoria = async (req, res) => {
+  const aud_id = parseInt(req.params.aud_id, 10);
   const { aud_usuario, aud_accion, aud_modulo, aud_funcionalidad, aud_observacion } = req.body;
 
   try {
@@ -87,4 +87,13 @@ exports.updateAuditoria = async (req, res) => {
     console.error('Error al actualizar la auditoría por ID:', err);
     res.status(500).json({ message: 'Error al actualizar la auditoría por ID', error: err.message });
   }
+};
+
+// Exportar todos los métodos
+module.exports = {
+  getAuditoria,
+  createAuditoria,
+  getAuditoriaById,
+  deleteAuditoria,
+  updateAuditoria,
 };

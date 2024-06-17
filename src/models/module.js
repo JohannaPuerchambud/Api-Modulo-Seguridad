@@ -1,7 +1,7 @@
 const pool = require('../models/db');
 
 const getmoduless = async () => {
-    const result = await pool.query('SELECT * FROM moduless');
+    const result = await pool.query('SELECT * FROM modules');
     return result.rows;
 };
 
@@ -33,7 +33,7 @@ const deletemodules = async (id) => {
     await pool.query('DELETE FROM modules WHERE mod_id = $1', [id]);
 };
 
-modules.exports = {
+module.exports = {
     getmoduless,
     getmodulesById,
     createmodules,
