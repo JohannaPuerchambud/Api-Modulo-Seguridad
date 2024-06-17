@@ -8,6 +8,7 @@ const moduleRoutes = require('./src/routes/moduleRoutes');
 const functionRoutes = require('./src/routes/functionRoutes');
 const roleFunctionRoutes = require('./src/routes/roles_funcionsRoutes');
 const rolesusersRouters = require('./src/routes/roleusersRoutes');
+const rolesRouters = require('./src/routes/rolesRoutes');
 const userRoutes = require('./src/routes/userRoutes');
 const db = require('./src/models/db'); // Archivo donde se define la conexión a la base de datos
 
@@ -24,6 +25,7 @@ app.use('/api', functionRoutes);
 app.use('/api', roleFunctionRoutes);
 app.use('/api', rolesusersRouters);
 app.use('/api', userRoutes);
+app.use('/api', rolesRouters);
 // Puedes añadir más rutas según tus necesidades
 
 app.listen(port, () => {
