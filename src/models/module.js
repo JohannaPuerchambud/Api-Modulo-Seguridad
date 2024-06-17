@@ -33,7 +33,7 @@ const deletemodules = async (id) => {
     await pool.query('DELETE FROM modules WHERE mod_id = $1', [id]);
 };
 
-modules.exports = {
+module.exports = {
     getmoduless,
     getmodulesById,
     createmodules,

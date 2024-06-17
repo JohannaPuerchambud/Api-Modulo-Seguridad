@@ -95,5 +95,5 @@ module.exports = {
   createAuditoria,
   getAuditoriaById,
   deleteAuditoria,
-  updateAuditoria
+  updateAuditoria,
 };
