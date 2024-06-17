@@ -22,6 +22,7 @@ app.use('/api', moduleRoutes);
 app.use('/api', functionRoutes);
 app.use('/api', roleFunctionRoutes);
 app.use('/api', rolesusersRouters);
+app.use('/api', userRoutes);
 // Puedes añadir más rutas según tus necesidades
 
 app.listen(port, () => {
