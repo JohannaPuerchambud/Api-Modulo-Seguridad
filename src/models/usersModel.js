@@ -1,6 +1,6 @@
 // models/user.js
 
-const db = require('./db');
+const db = require('../config/db');
 
 // Obtener todos los usuarios
 const getUsers = async () => {

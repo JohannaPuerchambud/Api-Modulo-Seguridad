@@ -1,4 +1,4 @@
-const db = require('../models/db');
+const db = require('../config/db');
 
 const RoleUser = {
   // Obtener todos los roles de usuario

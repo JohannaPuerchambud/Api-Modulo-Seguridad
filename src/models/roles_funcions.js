@@ -1,4 +1,4 @@
-const db = require('./db'); // Archivo donde se define la conexión a la base de datos
+const db = require('../config/db'); // Archivo donde se define la conexión a la base de datos
 
 const RoleFunction = {
   getAll: async () => {

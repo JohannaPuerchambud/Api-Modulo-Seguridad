@@ -1,5 +1,5 @@
 // src/models/functionModel.js
-const pool = require('./db');
+const pool = require('../config/db');
 
 const getAllFunctions = async () => {
   const result = await pool.query('SELECT * FROM public.functions');
