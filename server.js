@@ -10,7 +10,7 @@ const roleFunctionRoutes = require('./src/routes/roles_funcionsRoutes');
 const rolesusersRouters = require('./src/routes/roleusersRoutes');
 const rolesRouters = require('./src/routes/rolesRoutes');
 const userRoutes = require('./src/routes/userRoutes');
-const db = require('./src/models/db'); // Archivo donde se define la conexión a la base de datos
+const db = require('./src/config/db'); // Archivo donde se define la conexión a la base de datos
 
 const app = express();
 const port = process.env.PORT || 3000;
