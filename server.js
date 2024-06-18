@@ -12,6 +12,9 @@ const rolesRouters = require('./src/routes/rolesRoutes');
 const userRoutes = require('./src/routes/userRoutes');
 const db = require('./src/config/db'); // Archivo donde se define la conexión a la base de datos
 
+// Cargar variables de entorno desde .env (si existe)
+require('dotenv').config();
+
 const app = express();
 const port = process.env.PORT || 3000;
 
