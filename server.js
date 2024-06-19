@@ -22,19 +22,20 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // Rutas
-app.use('/api', auditoriaRoutes);
-app.use('/api', moduleRoutes);
-app.use('/api', functionRoutes);
-app.use('/api', roleFunctionRoutes);
-app.use('/api', rolesusersRouters);
-app.use('/api', userRoutes);
-app.use('/api', rolesRouters);
+app.use('/', auditoriaRoutes);
+app.use('/', moduleRoutes);
+app.use('/', functionRoutes);
+app.use('/', roleFunctionRoutes);
+app.use('/', rolesusersRouters);
+app.use('/', userRoutes);
+app.use('/', rolesRouters);
 // Puedes añadir más rutas según tus necesidades
 
-// app.listen(port, () => {
-//   console.log(`Servidor backend corriendo en http://localhost:${port}/`); 
-// });
 
-app.get('/', (req, res)=> {res.send('Bienvenidos a mi API-Modulo-Seguridad')});
-app.listen(port);
-console.log('Server running in: http://localhost:3000');
+app.get('/', (req, res) => {
+  res.send('Bienvenidos a mi API-Modulo-Seguridad');
+});
+
+app.listen(port, () => {
+  console.log(`Servidor corriendo en: http://localhost:${port}`);
+});
