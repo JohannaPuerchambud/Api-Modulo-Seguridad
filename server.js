@@ -31,6 +31,10 @@ app.use('/api', userRoutes);
 app.use('/api', rolesRouters);
 // Puedes añadir más rutas según tus necesidades
 
-app.listen(port, () => {
-  console.log(`Servidor backend corriendo en http://localhost:${port}/`); 
-});
+// app.listen(port, () => {
+//   console.log(`Servidor backend corriendo en http://localhost:${port}/`); 
+// });
+
+app.get('/', (req, res)=> {res.send('Bienvenidos a mi API-Modulo-Seguridad')});
+app.listen(port);
+console.log('Server running in: http://localhost:3000');
