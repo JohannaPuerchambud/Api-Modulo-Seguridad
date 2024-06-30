@@ -11,7 +11,7 @@ router.post('/user', authenticateToken, createUser);
 router.put('/user/:id', authenticateToken, updateUser);
 router.delete('/user/:id', authenticateToken, deleteUser);
 router.post('/login', login);
-router.get('/user/me/:id', authenticateToken, getCurrentUser);
-router.get('/user/me', authenticateToken, getCurrentUser2);
+//router.get('/user/me/:id', authenticateToken, getCurrentUser);
+router.get('/myuser', authenticateToken, getCurrentUser2);
 
 module.exports = router;

@@ -13,14 +13,13 @@ exports.getUsers = async (req, res) => {
     res.status(500).json({ message: 'Error al obtener los datos de la tabla users', error: error.message });
   }
 };
-
 exports.getUserById = async (req, res) => {
   try {
     const user = await User.findByPk(req.params.id);
     if (user) {
       res.json(user);
     } else {
-      res.status(404).json({ message: 'Registro no encontradoasd as' });
+      res.status(404).json({ message: 'Registro no encontrado' });
     }
   } catch (error) {
     res.status(500).json({ message: 'Error al obtener el usuario', error: error.message });
@@ -135,7 +134,7 @@ exports.getCurrentUser = async (req, res) => {
       if (!req.user) {
         return res.status(401).json({ message: 'Usuario no autenticado' });
       }
-      //res.json(this.getUserById2(req.user));
+      res.json(req.user);
     } catch (error) {
       res.status(500).json({ message: 'Error al obtener el usuario actual', error: error.message });
     }
