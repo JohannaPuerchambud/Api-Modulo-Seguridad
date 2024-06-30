@@ -2,12 +2,12 @@ const User = require('../models/usersModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-//const SECRET_KEY = "b1664565cdeb4f67e77ab0cafcb64d09b729639ae2c7e9c9ba315f956de78473";
+const SECRET_KEY = "b1664565cdeb4f67e77ab0cafcb64d09b729639ae2c7e9c9ba315f956de78473";
 const ALGORITHM = "HS256";
 
 exports.getUsers = async (req, res) => {
   try {
-    const users = await User.findAll();
+    const users = await User.getUsers();
     res.json(users);
   } catch (error) {
     res.status(500).json({ message: 'Error al obtener los datos de la tabla users', error: error.message });
@@ -20,7 +20,7 @@ exports.getUserById = async (req, res) => {
     if (user) {
       res.json(user);
     } else {
-      res.status(404).json({ message: 'Registro no encontrado' });
+      res.status(404).json({ message: 'Registro no encontradoasd as' });
     }
   } catch (error) {
     res.status(500).json({ message: 'Error al obtener el usuario', error: error.message });
@@ -106,7 +106,8 @@ exports.deleteUser = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { usr_user, usr_password } = req.body;
-    const user = await User.findOne({ where: { usr_user } });
+    //const user = await User.findOne({ where: { usr_user } });
+    const user = await User.getUserByUsername(usr_user);
     if (user && bcrypt.compareSync(usr_password, user.usr_password)) {
       const token = jwt.sign({ sub: user.usr_id }, SECRET_KEY, { algorithm: ALGORITHM, expiresIn: '60d' });
       res.json({ access_token: token, token_type: 'bearer' });
@@ -119,5 +120,35 @@ exports.login = async (req, res) => {
 };
 
 exports.getCurrentUser = async (req, res) => {
-  res.json(req.user);
-};
+    try {
+      if (!req.user) {
+        return res.status(401).json({ message: 'Usuario no autenticado' });
+      }
+      res.json(req.user);
+    } catch (error) {
+      res.status(500).json({ message: 'Error al obtener el usuario actual', error: error.message });
+    }
+  };
+
+  exports.getCurrentUser2 = async (req, res) => {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ message: 'Usuario no autenticado' });
+      }
+      //res.json(this.getUserById2(req.user));
+    } catch (error) {
+      res.status(500).json({ message: 'Error al obtener el usuario actual', error: error.message });
+    }
+  };
+  exports.getUserById2 = async (user) => {
+    try {
+      const userId = user.usr_id; // or however you identify the user ID in your user object
+      const userData = await User.getUserById(userId);
+      if (!userData) {
+        throw new Error('Usuario no encontrado');
+      }
+      return userData;
+    } catch (error) {
+      throw new Error(`Error al obtener el usuario: ${error.message}`);
+    }
+  };

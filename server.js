@@ -30,7 +30,7 @@ app.use('/api', roleFunctionRoutes);
 app.use('/api', rolesusersRouters);
 app.use('/api', userRoutes);
 app.use('/api', rolesRouters);
-//app.use('/api', usersRoutes);
+app.use('/api', usersRoutes);
 // Puedes añadir más rutas según tus necesidades
 
 app.listen(port, () => {
