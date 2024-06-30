@@ -1,5 +1,3 @@
-// models/user.js
-
 const db = require('../config/db');
 
 // Obtener todos los usuarios
@@ -61,6 +59,17 @@ const getUserById = async (usr_id) => {
   }
 };
 
+// Obtener un usuario por su nombre de usuario
+const getUserByUsername = async (usr_user) => {
+  try {
+    const query = 'SELECT * FROM users WHERE usr_user = $1';
+    const { rows } = await db.query(query, [usr_user]);
+    return rows[0];
+  } catch (error) {
+    throw error;
+  }
+};
+
 // Eliminar un usuario por su ID
 const deleteUserById = async (usr_id) => {
   try {
@@ -107,20 +116,12 @@ const updateUserById = async (usr_id, userData) => {
     throw error;
   }
 };
-const getUserByUsername = async (username) => {
-  try {
-    const query = 'SELECT * FROM users WHERE usr_user = $1';
-    const { rows } = await db.query(query, [username]);
-    return rows[0];
-  } catch (error) {
-    throw error;
-  }
-};
+
+// Función para obtener un usuario por su clave primaria (ID)
 const findByPk = async (usr_id) => {
   try {
-    const query = 'SELECT * FROM users WHERE usr_id = $1';
-    const { rows } = await db.query(query, [usr_id]);
-    return rows[0];
+    const user = await getUserById(usr_id);
+    return user;
   } catch (error) {
     throw error;
   }
@@ -132,6 +133,6 @@ module.exports = {
   getUserById,
   deleteUserById,
   updateUserById,
-  getUserByUsername,
   findByPk,
+  getUserByUsername,
 };
