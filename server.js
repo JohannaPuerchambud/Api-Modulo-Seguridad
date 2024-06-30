@@ -23,6 +23,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // Rutas
+
 app.use('/api', auditoriaRoutes);
 app.use('/api', moduleRoutes);
 app.use('/api', functionRoutes);
@@ -31,8 +32,14 @@ app.use('/api', rolesusersRouters);
 app.use('/api', userRoutes);
 app.use('/api', rolesRouters);
 app.use('/api', usersRoutes);
+
 // Puedes añadir más rutas según tus necesidades
 
+
+app.get('/', (req, res) => {
+  res.send('Bienvenidos a mi API-Modulo-Seguridad');
+});
+
 app.listen(port, () => {
-  console.log(`Servidor backend corriendo en http://localhost:${port}/`); 
+  console.log(`Servidor corriendo en: http://localhost:${port}`);
 });
