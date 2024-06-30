@@ -3,9 +3,9 @@ const db = require('../config/db'); // Archivo donde se define la conexión a la
 const RoleFunction = {
   getAll: async () => {
     const query = `
-      SELECT rf.rol_func_id, rf.rol_func_state, rf.rol_func_date,
-             r.rol_id, r.rol_role, r.rol_description, r.rol_allowed_users, r.rol_state AS rol_state_role, r.rol_date AS rol_date_role,
-             f.func_id, f.func_name, f.func_module, f.func_state AS func_state_function, f.func_date AS func_date_function
+      SELECT rf.rol_func_id, rf.rol_func_state,
+             r.rol_id, r.rol_role, r.rol_description, r.rol_allowed_users, r.rol_state AS rol_state_role,
+             f.func_id, f.func_name, f.func_module, f.func_state AS func_state_function
       FROM role_functions rf
       JOIN roles r ON rf.rol_func_role = r.rol_id
       JOIN functions f ON rf.rol_func_function = f.func_id
@@ -28,9 +28,9 @@ const RoleFunction = {
 
   getById: async (rol_func_id) => {
     const query = `
-      SELECT rf.rol_func_id, rf.rol_func_state, rf.rol_func_date,
-             r.rol_id, r.rol_role, r.rol_description, r.rol_allowed_users, r.rol_state AS rol_state_role, r.rol_date AS rol_date_role,
-             f.func_id, f.func_name, f.func_module, f.func_state AS func_state_function, f.func_date AS func_date_function
+      SELECT rf.rol_func_id, rf.rol_func_state,
+             r.rol_id, r.rol_role, r.rol_description, r.rol_allowed_users, r.rol_state AS rol_state_role,
+             f.func_id, f.func_name, f.func_module, f.func_state AS func_state_function
       FROM role_functions rf
       JOIN roles r ON rf.rol_func_role = r.rol_id
       JOIN functions f ON rf.rol_func_function = f.func_id

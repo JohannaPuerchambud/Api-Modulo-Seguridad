@@ -12,10 +12,9 @@ const getmodulesById = async (id) => {
 
 const createmodules = async (modules) => {
     const { mod_name, mod_admin, mod_state } = modules;
-    const mod_date = new Date();
     const result = await pool.query(
-        'INSERT INTO moduless (mod_name, mod_admin, mod_state, mod_date) VALUES ($1, $2, $3, $4) RETURNING *',
-        [mod_name, mod_admin, mod_state, mod_date]
+        'INSERT INTO moduless (mod_name, mod_admin, mod_state) VALUES ($1, $2, $3) RETURNING *',
+        [mod_name, mod_admin, mod_state]
     );
     return result.rows[0];
 };
