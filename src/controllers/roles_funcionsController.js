@@ -1,4 +1,5 @@
 const RoleFunction = require('../models/roles_funcions');
+const db = require('../config/db');
 
 const getRoleFunctions = async (req, res) => {
   try {
@@ -61,11 +62,27 @@ const deleteRoleFunction = async (req, res) => {
     res.status(500).json({ message: 'Error al eliminar el role function', error: err.message });
   }
 };
+const getRoleFunctionsByRole = async (req, res) => {
+  const { rol_func_role } = req.params;
+  try {
+    const query = 'SELECT * FROM role_functions WHERE rol_func_role = $1';
+    const { rows } = await db.query(query, [rol_func_role]);
+    
+    if (rows.length === 0) {
+      return res.status(404).json({ message: `No functions found for role ${rol_func_role}` });
+    }
+
+    return res.json({ tb_role_function: rows });
+  } catch (error) {
+    return res.status(500).json({ message: `Error retrieving functions for role ${rol_func_role}`, error: error.message });
+  }
+};
 
 module.exports = {
   getRoleFunctions,
   createRoleFunction,
   getRoleFunctionById,
   updateRoleFunction,
-  deleteRoleFunction
+  deleteRoleFunction,
+  getRoleFunctionsByRole,
 };
