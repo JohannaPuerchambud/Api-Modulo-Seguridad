@@ -1,5 +1,6 @@
 // src/controllers/functionController.js
 const functionModel = require('../models/funcionmodel');
+const db = require('../config/db');
 
 const getFunctions = async (req, res) => {
   try {
@@ -9,6 +10,7 @@ const getFunctions = async (req, res) => {
     res.status(500).json({ error: 'Error fetching functions' });
   }
 };
+
 
 const getFunction = async (req, res) => {
   try {
@@ -59,10 +61,27 @@ const deleteFunction = async (req, res) => {
   }
 };
 
+const getFunctionsByModule = async (req, res) => {
+  const { mod_id } = req.params;
+  try {
+    const query = 'SELECT * FROM functions WHERE func_module = $1';
+    const { rows } = await db.query(query, [mod_id]);
+    
+    if (rows.length === 0) {
+      return res.status(404).json({ message: `No functions found for module ${mod_id}` });
+    }
+
+    return res.json({ tb_function: rows });
+  } catch (error) {
+    return res.status(500).json({ message: `Error retrieving functions for module ${mod_id}`, error: error.message });
+  }
+};
+
 module.exports = {
   getFunctions,
   getFunction,
   createFunction,
   updateFunction,
   deleteFunction,
+  getFunctionsByModule,
 };
