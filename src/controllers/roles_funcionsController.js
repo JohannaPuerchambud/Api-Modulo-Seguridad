@@ -65,7 +65,15 @@ const deleteRoleFunction = async (req, res) => {
 const getRoleFunctionsByRole = async (req, res) => {
   const { rol_func_role } = req.params;
   try {
-    const query = 'SELECT * FROM role_functions WHERE rol_func_role = $1';
+    const query = `
+      SELECT rf.rol_func_id, rf.rol_func_state,
+             r.rol_id, r.rol_role, r.rol_description, r.rol_allowed_users, r.rol_state AS rol_state_role,
+             f.func_id, f.func_name, f.func_module, f.func_state AS func_state_function
+      FROM role_functions rf
+      INNER JOIN roles r ON rf.rol_func_role = r.rol_id
+      INNER JOIN functions f ON rf.rol_func_function = f.func_id
+      WHERE rf.rol_func_role = $1
+    `;
     const { rows } = await db.query(query, [rol_func_role]);
     
     if (rows.length === 0) {
