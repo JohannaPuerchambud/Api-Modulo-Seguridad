@@ -71,3 +71,16 @@ exports.deleteRoleUser = async (req, res) => {
     res.status(500).json({ message: 'Error al eliminar el rol de usuario por ID', error: error.message });
   }
 };
+exports.getRoleUserByUser = async (req, res) => {
+  const { rol_usr_user } = req.params;
+
+  try {
+    const rows = await RoleUser.getByUserId(rol_usr_user);
+    if (rows.length === 0) {
+      return res.status(404).json({ message: `Registros del usuario ${rol_usr_user} no encontrados` });
+    }
+    res.json({ tb_role_user_user: rows });
+  } catch (error) {
+    res.status(500).json({ message: `Error al obtener los datos de la tabla role_users por usuario`, error: error.message });
+  }
+};

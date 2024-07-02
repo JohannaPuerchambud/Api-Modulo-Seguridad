@@ -52,6 +52,23 @@ const RoleUser = {
     }
   },
 
+  // Obtener roles de usuario por el ID del usuario
+  async getByUserId(rol_usr_user) {
+    try {
+      const query = `
+        SELECT ru.*, u.usr_full_name AS user_name, r.rol_role AS role_name
+        FROM role_users ru
+        INNER JOIN users u ON ru.rol_usr_user = u.usr_id
+        INNER JOIN roles r ON ru.rol_usr_role = r.rol_id
+        WHERE ru.rol_usr_user = $1
+      `;
+      const { rows } = await db.query(query, [rol_usr_user]);
+      return rows;
+    } catch (error) {
+      throw error;
+    }
+  },
+
   // Actualizar un rol de usuario por su ID
   async update(id, roleUser) {
     const { rol_usr_user, rol_usr_role, rol_usr_state } = roleUser;

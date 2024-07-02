@@ -10,4 +10,5 @@ router.get('/auditoria/:aud_id', auditoriaController.getAuditoriaById);
 router.delete('/auditoria/:aud_id', auditoriaController.deleteAuditoria);
 router.put('/auditoria/:aud_id', auditoriaController.updateAuditoria);
 
+
 module.exports = router;
