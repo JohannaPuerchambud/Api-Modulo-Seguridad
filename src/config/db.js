@@ -1,30 +1,15 @@
 const { Pool } = require('pg');
 
 const pool = new Pool({
-  user: 'postgres', // Usuario de la base de datos
-  host: 'localhost', // Dirección del servidor de la base de datos
-  database: 'api_sei', // Nombre de la base de datos
-  password: 'root', // Contraseña del usuario de la base de datos
-  port: 5432, // Puerto por defecto de PostgreSQL
+
+  user: process.env.DB_USER, // Usuario de la base de datos desde la variable de entorno
+  host: process.env.DB_HOST, // Dirección del servidor de la base de datos desde la variable de entorno
+  database: process.env.DB_NAME, // Nombre de la base de datos desde la variable de entorno
+  password: String(process.env.DB_PASSWORD), // Contraseña del usuario de la base de datos desde la variable de entorno
+  port: process.env.DB_PORT, // Puerto desde la variable de entorno
+
 });
 
 module.exports = {
   query: (text, params) => pool.query(text, params),
 };
-
-
-// // models/db.js
-
-// const { Pool } = require('pg');
-
-// // Configurar la conexión a la base de datos utilizando la variable de entorno DATABASE_URL
-// const pool = new Pool({
-//   connectionString: process.env.DATABASE_URL,
-//   ssl: {
-//     rejectUnauthorized: false
-//   }
-// });
-
-// module.exports = {
-//   query: (text, params) => pool.query(text, params),
-// };
