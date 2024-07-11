@@ -164,7 +164,7 @@ exports.login_Modules = async (req, res) => {
       // Crear el token JWT
       const token = jwt.sign({ sub: user.usr_id }, SECRET_KEY, { algorithm: ALGORITHM, expiresIn: '60d' });
 
-      res.json({ access_token: token, token_type: 'bearer', functionalities });
+      res.json({ access_token: token, token_type: 'bearer', functionalities ,  roles});
     } else {
       res.status(401).json({ message: 'Credenciales no válidas' });
     }
