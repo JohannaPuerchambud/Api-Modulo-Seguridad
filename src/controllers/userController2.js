@@ -131,7 +131,7 @@ exports.login_Modules = async (req, res) => {
     
     // Obtener el usuario por su nombre de usuario
     const user = await User.getUserByUsername(usr_user);
-    console.log(user);
+    //console.log(user);
     if (user && bcrypt.compareSync(usr_password, user.usr_password)) {
       // Obtener el módulo por su nombre
       const module = await Module.getModuleByName(mod_name);
@@ -154,9 +154,9 @@ exports.login_Modules = async (req, res) => {
       }
       const functionalities = roleFunctions.map(roleFunction => roleFunction.func_name);
       
-      console.log(roles.map(roles => roles.rol_usr_role));
-      console.log("roles name ",roles.rol_usr_user);
-      console.log(module.mod_id);
+      //console.log(roles.map(roles => roles.rol_usr_role));
+      //console.log("roles name ",roles.rol_usr_user);
+      //console.log(module.mod_id);
 
       if (!functionalities) {
         return res.status(403).json({ message: 'Usuario no tiene roleFunctions asignados' });
