@@ -8,7 +8,6 @@ const getModules = async (req, res) => {
         res.status(500).json({ message: 'Error al obtener los módulos', error });
     }
 };
-
 const getModuleById = async (req, res) => {
     try {
         const module = await Module.getModuleById(req.params.id);

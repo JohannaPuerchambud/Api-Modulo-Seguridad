@@ -1,6 +1,13 @@
 const User = require('../models/usersModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const Module = require('../models/module');
+const Function = require('../models/funcionmodel');
+const Role = require('../models/rolesmodel');
+const RoleFunction = require('../models/roles_funcions');
+const RoleUser = require('../models/roleUser');
+
+
 
 const SECRET_KEY = "b1664565cdeb4f67e77ab0cafcb64d09b729639ae2c7e9c9ba315f956de78473";
 const ALGORITHM = "HS256";
@@ -110,6 +117,54 @@ exports.login = async (req, res) => {
     if (user && bcrypt.compareSync(usr_password, user.usr_password)) {
       const token = jwt.sign({ sub: user.usr_id }, SECRET_KEY, { algorithm: ALGORITHM, expiresIn: '60d' });
       res.json({ access_token: token, token_type: 'bearer' });
+    } else {
+      res.status(401).json({ message: 'Credenciales no válidas' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Error al iniciar sesión', error: error.message });
+  }
+};
+
+exports.login_Modules = async (req, res) => {
+  try {
+    const { usr_user, usr_password, mod_name } = req.body;
+    
+    // Obtener el usuario por su nombre de usuario
+    const user = await User.getUserByUsername(usr_user);
+    //console.log(user);
+    if (user && bcrypt.compareSync(usr_password, user.usr_password)) {
+      // Obtener el módulo por su nombre
+      const module = await Module.getModuleByName(mod_name);
+      
+      if (!module) {
+        return res.status(404).json({ message: 'Módulo no encontrado o inactivo' });
+      }
+
+      // Obtener los roles del usuario
+      const roles = await RoleUser.getByUserIdAndState(user.usr_id);
+      
+      if (!roles) {
+        return res.status(403).json({ message: 'Usuario no tiene roles asignados' });
+      }
+
+      // Obtener las funcionalidades permitidas para el usuario en el módulo especificado
+      const roleFunctions = await RoleFunction.getRoleFunctions2(roles.map(roles => roles.rol_usr_role)+"", module.mod_id);
+      if (!roleFunctions) {
+        return res.status(403).json({ message: 'Usuario no tiene roleFunctions asignados' });
+      }
+      const functionalities = roleFunctions.map(roleFunction => roleFunction.func_name);
+      
+      //console.log(roles.map(roles => roles.rol_usr_role));
+      //console.log("roles name ",roles.rol_usr_user);
+      //console.log(module.mod_id);
+
+      if (!functionalities) {
+        return res.status(403).json({ message: 'Usuario no tiene roleFunctions asignados' });
+      }
+      // Crear el token JWT
+      const token = jwt.sign({ sub: user.usr_id }, SECRET_KEY, { algorithm: ALGORITHM, expiresIn: '60d' });
+
+      res.json({ access_token: token, token_type: 'bearer', functionalities });
     } else {
       res.status(401).json({ message: 'Credenciales no válidas' });
     }

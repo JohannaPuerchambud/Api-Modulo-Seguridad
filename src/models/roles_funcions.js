@@ -1,6 +1,22 @@
 const db = require('../config/db'); // Archivo donde se define la conexión a la base de datos
 
 const RoleFunction = {
+    getRoleFunctions2: async (roles, moduleId) => {
+      try {
+        const query = `
+          SELECT rf.*, f.func_name
+          FROM role_functions rf
+          INNER JOIN functions f ON rf.rol_func_function = f.func_id
+          WHERE rf.rol_func_role = $2
+          AND f.func_module = $1
+        `;
+        const params = [moduleId, roles];
+        const { rows } = await db.query(query, params);
+        return rows;
+      } catch (error) {
+        throw error;
+      }
+    },
   getAll: async () => {
     const query = `
       SELECT rf.rol_func_id, rf.rol_func_state,
@@ -13,7 +29,25 @@ const RoleFunction = {
     const { rows } = await db.query(query);
     return rows;
   },
-
+  getRoleFunctions: async (roles, moduleId) => {
+    try {
+      const roleIds = roles.map(role => role.rol_usr_role);
+      const roleIdsParams = roleIds.map((_, index) => `$${index + 2}`).join(',');
+      const query = `
+        SELECT rf.*, f.func_name
+        FROM role_functions rf
+        INNER JOIN functions f ON rf.rol_func_function = f.func_id
+        WHERE rf.rol_func_role IN (${roleIdsParams})
+        AND f.func_module = $1
+      `;
+      const params = [moduleId, ...roleIds];
+      const { rows } = await db.query(query, params);
+      return rows;
+    } catch (error) {
+      throw error;
+    }
+  },
+  
   create: async (roleFunction) => {
     const { rol_func_role, rol_func_function, rol_func_state } = roleFunction;
     const query = `

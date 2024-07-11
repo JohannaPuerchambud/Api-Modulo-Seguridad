@@ -32,10 +32,16 @@ const deletemodules = async (id) => {
     await pool.query('DELETE FROM modules WHERE mod_id = $1', [id]);
 };
 
+const getModuleByName = async (mod_name) => {
+    const result = await pool.query('SELECT * FROM modules WHERE mod_name = $1', [mod_name]);
+    return result.rows[0];
+};
+
 module.exports = {
     getmoduless,
     getmodulesById,
     createmodules,
     updatemodules,
     deletemodules,
+    getModuleByName
 };
