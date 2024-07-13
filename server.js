@@ -1,8 +1,8 @@
-// app.js
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const swaggerUi = require('swagger-ui-express');
+const swaggerJsdoc = require('swagger-jsdoc');
 const auditoriaRoutes = require('./src/routes/auditoriaRoutes');
 const moduleRoutes = require('./src/routes/moduleRoutes');
 const functionRoutes = require('./src/routes/functionRoutes');
@@ -23,7 +23,6 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // Rutas
-
 app.use('/api', auditoriaRoutes);
 app.use('/api', moduleRoutes);
 app.use('/api', functionRoutes);
@@ -33,13 +32,29 @@ app.use('/api', userRoutes);
 app.use('/api', rolesRouters);
 app.use('/api', usersRoutes);
 
-// Puedes añadir más rutas según tus necesidades
+// Configuración de Swagger
+const options = {
+  definition: {
+    openapi: '3.0.0', // Especificación de OpenAPI que estamos utilizando
+    info: {
+      title: 'API Módulo de Seguridad', // Título de tu documentación
+      version: '1.0.0', // Versión de tu API
+    },
+  },
+  apis: ['./src/routes/*.js'], // Rutas donde se encuentran tus archivos de rutas
+};
 
+const specs = swaggerJsdoc(options);
 
+// Middleware para servir la documentación Swagger UI
+app.use('/api', swaggerUi.serve, swaggerUi.setup(specs));
+
+// Ruta de bienvenida redirigida a la documentación
 app.get('/', (req, res) => {
-  res.send('Bienvenidos a mi API-Modulo-Seguridad');
+  res.redirect('/api');
 });
 
+// Arranque del servidor
 app.listen(port, () => {
   console.log(`Servidor corriendo en: http://localhost:${port}`);
 });
