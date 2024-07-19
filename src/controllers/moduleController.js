@@ -1,13 +1,16 @@
-const Module = require('../models/module')
+const Module = require('../models/module');
 
+// Obtener todos los módulos
 const getModules = async (req, res) => {
     try {
-        const modules = await Module.getmoduless();
+        const modules = await Module.getModules();
         res.json(modules);
     } catch (error) {
         res.status(500).json({ message: 'Error al obtener los módulos', error });
     }
 };
+
+// Obtener módulo por ID
 const getModuleById = async (req, res) => {
     try {
         const module = await Module.getModuleById(req.params.id);
@@ -20,6 +23,7 @@ const getModuleById = async (req, res) => {
     }
 };
 
+// Crear un nuevo módulo
 const createModule = async (req, res) => {
     try {
         const module = await Module.createModule(req.body);
@@ -29,6 +33,7 @@ const createModule = async (req, res) => {
     }
 };
 
+// Actualizar un módulo existente
 const updateModule = async (req, res) => {
     try {
         const module = await Module.updateModule(req.params.id, req.body);
@@ -41,6 +46,7 @@ const updateModule = async (req, res) => {
     }
 };
 
+// Eliminar un módulo
 const deleteModule = async (req, res) => {
     try {
         await Module.deleteModule(req.params.id);
