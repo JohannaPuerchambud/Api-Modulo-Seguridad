@@ -1,47 +1,53 @@
 const pool = require('../config/db');
 
-const getmoduless = async () => {
-    const result = await pool.query('SELECT * FROM modules');
+// Obtener todos los módulos
+const getModules = async () => {
+    const result = await pool.query('SELECT * FROM public.modules');
     return result.rows;
 };
 
-const getmodulesById = async (id) => {
-    const result = await pool.query('SELECT * FROM moduless WHERE mod_id = $1', [id]);
+// Obtener módulo por ID
+const getModuleById = async (id) => {
+    const result = await pool.query('SELECT * FROM public.modules WHERE mod_id = $1', [id]);
     return result.rows[0];
 };
 
-const createmodules = async (modules) => {
-    const { mod_name, mod_admin, mod_state } = modules;
+// Crear un nuevo módulo
+const createModule = async (module) => {
+    const { mod_name, mod_state } = module;
     const result = await pool.query(
-        'INSERT INTO moduless (mod_name, mod_admin, mod_state) VALUES ($1, $2, $3) RETURNING *',
-        [mod_name, mod_admin, mod_state]
+        'INSERT INTO public.modules (mod_name, mod_state) VALUES ($1, $2) RETURNING *',
+        [mod_name, mod_state]
     );
     return result.rows[0];
 };
 
-const updatemodules = async (id, modules) => {
-    const { mod_name, mod_admin, mod_state } = modules;
+// Actualizar un módulo existente
+const updateModule = async (id, module) => {
+    const { mod_name, mod_state } = module;
     const result = await pool.query(
-        'UPDATE modules SET mod_name = $1, mod_admin = $2, mod_state = $3 WHERE mod_id = $4 RETURNING *',
-        [mod_name, mod_admin, mod_state, id]
+        'UPDATE public.modules SET mod_name = $1, mod_state = $2 WHERE mod_id = $3 RETURNING *',
+        [mod_name, mod_state, id]
     );
     return result.rows[0];
 };
 
-const deletemodules = async (id) => {
-    await pool.query('DELETE FROM modules WHERE mod_id = $1', [id]);
+// Eliminar un módulo
+const deleteModule = async (id) => {
+    await pool.query('DELETE FROM public.modules WHERE mod_id = $1', [id]);
 };
 
+// Obtener módulo por nombre
 const getModuleByName = async (mod_name) => {
-    const result = await pool.query('SELECT * FROM modules WHERE mod_name = $1', [mod_name]);
+    const result = await pool.query('SELECT * FROM public.modules WHERE mod_name = $1', [mod_name]);
     return result.rows[0];
 };
 
 module.exports = {
-    getmoduless,
-    getmodulesById,
-    createmodules,
-    updatemodules,
-    deletemodules,
+    getModules,
+    getModuleById,
+    createModule,
+    updateModule,
+    deleteModule,
     getModuleByName
 };
